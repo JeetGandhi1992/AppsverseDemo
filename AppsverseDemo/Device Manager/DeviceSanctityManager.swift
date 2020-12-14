@@ -118,3 +118,17 @@ class DeviceSanctityManager: DeviceSanctityType {
         return grantsToWrite
     }
 }
+
+enum DeviceError: Error {
+    case deviceIsMalicious
+}
+
+extension DeviceError: LocalizedError {
+
+    var errorDescription: String? {
+        switch self {
+            case .deviceIsMalicious:
+                return "Unknown Error occured"
+        }
+    }
+}

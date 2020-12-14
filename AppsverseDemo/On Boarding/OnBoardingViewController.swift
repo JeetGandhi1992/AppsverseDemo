@@ -13,10 +13,7 @@ class OnBoardingViewController: UIViewController, TaskViewController {
 
     var alertPresenter: AlertPresenterType = AlertPresenter()
     var loadingSpinner: UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
-    var viewModel: OnBoardingViewModel! = OnBoardingViewModel(deviceSanctityManager: DeviceSanctityManager(),
-                                                              keyChainHelper: KeyChainHelper(encryptionKeyName: "mainKey",
-                                                                                             passwordKeyName: "passKey",
-                                                                                             keyChainManager: KeyChainManager()))
+    var viewModel: OnBoardingViewModel!
 
     var disposeBag: DisposeBag = DisposeBag()
 
@@ -27,6 +24,10 @@ class OnBoardingViewController: UIViewController, TaskViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+//        let spec: NSDictionary = [kSecClass: kSecClassGenericPassword]
+//        SecItemDelete(spec)
+
         setupLoadingSpinner()
         setupNetworkingEventsUI()
         setupSignUpButton()

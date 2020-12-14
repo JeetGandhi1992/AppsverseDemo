@@ -64,6 +64,80 @@
             </objects>
             <point key="canvasLocation" x="-196" y="94"/>
         </scene>
+        <!--Main Album View Controller-->
+        <scene sceneID="n2a-M5-Yvr">
+            <objects>
+                <viewController storyboardIdentifier="MainAlbumViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sqz-r8-bJs" customClass="MainAlbumViewController" customModule="AppsverseDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="peb-44-Hgy">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UMm-zb-l8C">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="II2-Pq-wsN">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="QC1-nZ-zu7"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="UMm-zb-l8C" firstAttribute="top" secondItem="QC1-nZ-zu7" secondAttribute="top" id="Uim-sd-4vd"/>
+                            <constraint firstItem="UMm-zb-l8C" firstAttribute="leading" secondItem="QC1-nZ-zu7" secondAttribute="leading" id="anz-5Q-Aqy"/>
+                            <constraint firstItem="QC1-nZ-zu7" firstAttribute="trailing" secondItem="UMm-zb-l8C" secondAttribute="trailing" id="zdr-Z1-ZlQ"/>
+                            <constraint firstItem="QC1-nZ-zu7" firstAttribute="bottom" secondItem="UMm-zb-l8C" secondAttribute="bottom" id="zrD-BZ-akJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="UMm-zb-l8C" id="m8J-79-boj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gEv-vb-MK7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="551" y="86"/>
+        </scene>
+        <!--Album Detail View Controller-->
+        <scene sceneID="l19-H4-oIa">
+            <objects>
+                <viewController storyboardIdentifier="AlbumDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EIU-mA-8LG" customClass="AlbumDetailViewController" customModule="AppsverseDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZYt-8e-4cX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="kHl-X2-Rtc">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XxU-Pt-N8q">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="KOA-eQ-s6f"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kHl-X2-Rtc" firstAttribute="leading" secondItem="KOA-eQ-s6f" secondAttribute="leading" id="K9o-jq-DxD"/>
+                            <constraint firstItem="kHl-X2-Rtc" firstAttribute="top" secondItem="KOA-eQ-s6f" secondAttribute="top" id="WWO-cj-8PH"/>
+                            <constraint firstItem="KOA-eQ-s6f" firstAttribute="bottom" secondItem="kHl-X2-Rtc" secondAttribute="bottom" id="h73-SN-jgp"/>
+                            <constraint firstItem="KOA-eQ-s6f" firstAttribute="trailing" secondItem="kHl-X2-Rtc" secondAttribute="trailing" id="iPi-hC-EbY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="kHl-X2-Rtc" id="IYV-kH-5na"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C0O-Yt-8Hc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1330" y="86"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

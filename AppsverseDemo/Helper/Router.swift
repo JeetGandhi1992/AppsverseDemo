@@ -19,7 +19,11 @@ struct Router: RouterProtocol {
             case let viewModel as OnBoardingViewModel:
                 return UIViewController.make(viewController: OnBoardingViewController.self, viewModel: viewModel)
 
+            case let viewModel as MainAlbumViewModel:
+                return UIViewController.make(viewController: MainAlbumViewController.self, viewModel: viewModel)
 
+            case let viewModel as AlbumDetailViewModel:
+                return UIViewController.make(viewController: AlbumDetailViewController.self, viewModel: viewModel)
             default:
                 fatalError("Unable to find corresponding View Controller for \(viewModel)")
         }

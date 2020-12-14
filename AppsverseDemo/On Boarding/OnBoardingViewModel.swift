@@ -9,10 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum OnBoardingError: Error {
-    case deviceIsMalicious
-}
-
 public enum OnBoardingViewModelEvents {
     case deviceMalicious(TaskUIEvent<Bool>)
     case keyGenerated(TaskUIEvent<()>)
@@ -67,6 +63,7 @@ protocol OnBoardingViewModelType: TaskViewModel {
     var events: PublishSubject<OnBoardingViewModelEvents> { get }
     var deviceSanctityManager: DeviceSanctityType { get }
 }
+
 class OnBoardingViewModel: OnBoardingViewModelType {
 
     var deviceSanctityManager: DeviceSanctityType
@@ -93,7 +90,7 @@ class OnBoardingViewModel: OnBoardingViewModelType {
     func checkDeviceSanctity() {
 
         if self.deviceSanctityManager.isMaliciousDevice() {
-            self.events.onNext(.deviceMalicious(.failed(OnBoardingError.deviceIsMalicious)))
+            self.events.onNext(.deviceMalicious(.failed(DeviceError.deviceIsMalicious)))
         } else {
             self.keyChainHelper
                 .setupSecKey()

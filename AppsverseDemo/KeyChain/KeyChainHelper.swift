@@ -83,7 +83,7 @@ class KeyChainHelper: KeyChainHelperType {
                     observer.on(.completed)
                     return
                 }
-                self.keyChainManager.savePin(for: self.passwordKeyName, data: pinData) { (success) in
+                self.keyChainManager.savePin(for: self.passwordKeyName, data: encryptedPin!) { (success) in
                     success ? observer.on(.next(TaskUIEvent.succeeded(()))) : observer.on(.next(TaskUIEvent.failed(KeyChainError.pinSavingError)))
                     observer.on(.completed)
                 }
