@@ -37,7 +37,7 @@ public struct Album: Codable, Equatable {
         self.init(name: albumRealmObject.name,
                   number: albumRealmObject.number,
                   pin: albumRealmObject.pin,
-                  images: albumRealmObject.images.toArray())
+                  images: albumRealmObject.images.toArray().compactMap { $0 })
     }
 }
 
@@ -46,7 +46,7 @@ public class AlbumObject: Object {
     @objc dynamic var name: String?
     @objc dynamic var number: Int = 0
     @objc dynamic var pin: Data?
-    var images: List<Data> = List<Data>()
+    var images: List<Data?> = List<Data?>()
 
     var album: Album {
         return Album(albumRealmObject: self)
@@ -57,7 +57,7 @@ public class AlbumObject: Object {
         self.name = album.name
         self.number = album.number ?? 0
         self.pin = album.pin
-        let imgs = List<Data>()
+        let imgs = List<Data?>()
         imgs.append(objectsIn: album.images ?? [])
         self.images = imgs
     }

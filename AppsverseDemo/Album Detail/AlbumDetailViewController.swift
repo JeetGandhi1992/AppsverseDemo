@@ -52,7 +52,10 @@ class AlbumDetailViewController: UIViewController, TaskViewController {
         self.collectionView.rx
             .modelSelected(ImageCellModel.self)
             .map { $0.image }
-            .bind(to: self.viewModel.selectedImage)
+            .asDriver(onErrorJustReturn: Data())
+            .drive(onNext: { [unowned self] (data) in
+                self.viewModel.displayImage(data: data)
+            })
             .disposed(by: disposeBag)
     }
 

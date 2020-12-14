@@ -13,5 +13,5 @@ class Constants {
 
     static let passwordKeyName = "passKey"
 
-    static let pinRegex = "(?=[^a-z]*[a-z])(?=[^0-9]*[0-9])[a-zA-Z0-9!@#$%^&*]{8,}"
+    static let pinRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&#])[A-Za-z\\d$@$!%*?&#]{8,24}"
 }

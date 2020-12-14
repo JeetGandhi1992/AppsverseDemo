@@ -57,7 +57,7 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
 
     var images: BehaviorRelay<[Data]> = BehaviorRelay<[Data]>(value: [])
     var imageSectionModel = BehaviorRelay(value: ImageSectionModel(items: []))
-    let selectedImage = PublishSubject<Data>()
+    let selectedImage = PublishSubject<UIImage>()
     var sharedRealm: AlbumRealmDB
 
     var events = PublishSubject<AlbumDetailViewModelEvents>()
@@ -97,6 +97,10 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
                         self.album.images = updatedImages
                         self.save(albums: [self.album])
                         self.images.accept(updatedImages)
+                    case .imageTapped(.succeeded(let imageData)):
+                        if let image = UIImage(data: imageData) {
+                            self.selectedImage.onNext(image)
+                        }
                     default:
                         break
                 }
@@ -128,6 +132,15 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
             })
             .disposed(by: disposeBag)
         
+    }
+
+    func displayImage(data: Data) {
+        self.keyChainHelper.decrypt(encryptedData: data)
+            .subscribeOn(MainScheduler.asyncInstance)
+            .subscribe(onNext: { (event) in
+                self.events.onNext(.imageTapped(event))
+            })
+            .disposed(by: disposeBag)
     }
 
 }

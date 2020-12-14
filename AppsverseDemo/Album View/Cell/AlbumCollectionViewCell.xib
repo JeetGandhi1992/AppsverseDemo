@@ -17,8 +17,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="156" height="156"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0EX-5P-XNG">
-                        <rect key="frame" x="78" y="78" width="0.0" height="0.0"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0EX-5P-XNG">
+                        <rect key="frame" x="10" y="10" width="136" height="136"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -27,6 +27,10 @@
                 <color key="backgroundColor" systemColor="systemOrangeColor"/>
                 <constraints>
                     <constraint firstItem="0EX-5P-XNG" firstAttribute="centerX" secondItem="2YV-v2-ZsO" secondAttribute="centerX" id="2Yx-j5-B5A"/>
+                    <constraint firstItem="0EX-5P-XNG" firstAttribute="top" secondItem="2YV-v2-ZsO" secondAttribute="top" constant="10" id="5vw-dD-C8x"/>
+                    <constraint firstItem="0EX-5P-XNG" firstAttribute="leading" secondItem="2YV-v2-ZsO" secondAttribute="leading" constant="10" id="8vz-dp-Hwv"/>
+                    <constraint firstAttribute="bottom" secondItem="0EX-5P-XNG" secondAttribute="bottom" constant="10" id="BG9-o4-Ke5"/>
+                    <constraint firstAttribute="trailing" secondItem="0EX-5P-XNG" secondAttribute="trailing" constant="10" id="Mfb-Tz-kgi"/>
                     <constraint firstItem="0EX-5P-XNG" firstAttribute="centerY" secondItem="2YV-v2-ZsO" secondAttribute="centerY" id="nMO-AR-tAv"/>
                 </constraints>
             </collectionViewCellContentView>

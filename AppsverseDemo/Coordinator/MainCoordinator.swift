@@ -67,19 +67,37 @@ class MainCoordinator {
             .drive(onNext: { [weak viewController, weak keyChainHelper] (album) in
 
                 guard let keyChainHelper = keyChainHelper else { return }
-                let albumDetailViewModel = AlbumDetailViewModel(keyChainHelper: keyChainHelper,
-                                                     imagerPickerManager: ImagerPickerManager(),
-                                                     album: album)
 
-                guard let albumDetailViewController = Router().viewController(forViewModel:  albumDetailViewModel) as? AlbumDetailViewController else {
-                    fatalError("AlbumDetailViewController not found")
-                }
-                
-                viewController?.navigationController?.pushViewController(albumDetailViewController,
+                viewController?.navigationController?.pushViewController(getAlbumDetail(keyChainHelper: keyChainHelper, album: album),
                                                                          animated: true)
             })
-            .disposed(by: viewController.disposeBag)
+            .disposed(by: viewModel.disposeBag)
         return viewController
+    }
+
+    private static func getAlbumDetail(keyChainHelper: KeyChainHelper, album: Album) -> UIViewController {
+        let albumDetailViewModel = AlbumDetailViewModel(keyChainHelper: keyChainHelper,
+                                                        imagerPickerManager: ImagerPickerManager(),
+                                                        album: album)
+
+        guard let albumDetailViewController = Router().viewController(forViewModel:  albumDetailViewModel) as? AlbumDetailViewController else {
+            fatalError("AlbumDetailViewController not found")
+        }
+        albumDetailViewModel
+            .selectedImage
+            .asDriver(onErrorJustReturn: UIImage()).drive(onNext: { [weak albumDetailViewController] (image) in
+                let imageViewController = UIViewController.make(viewController: ImageViewController.self,
+                                                                     from: "Main")
+                imageViewController.image = image
+
+                albumDetailViewController?.navigationController?.present(imageViewController,
+                                                                         animated: true,
+                                                                         completion: nil)
+
+
+            })
+            .disposed(by: albumDetailViewModel.disposeBag)
+        return albumDetailViewController
     }
 
 }

@@ -14,6 +14,7 @@
 		4601CB8B258713FE00071A95 /* AlbumDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601CB8A258713FE00071A95 /* AlbumDetailViewController.swift */; };
 		4601CB932587141000071A95 /* AlbumDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601CB922587141000071A95 /* AlbumDetailViewModel.swift */; };
 		4601CBDC258726DD00071A95 /* ImageSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601CBDB258726DD00071A95 /* ImageSectionModel.swift */; };
+		4601CBE2258749F600071A95 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601CBE1258749F600071A95 /* ImageViewController.swift */; };
 		4624DD252582316C000B165B /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4624DD242582316C000B165B /* TaskViewModel.swift */; };
 		4624DD2A25828282000B165B /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4624DD2925828282000B165B /* AlertPresenter.swift */; };
 		4624DD2F258282AB000B165B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4624DD2E258282AB000B165B /* Router.swift */; };
@@ -72,6 +73,7 @@
 		4601CB8A258713FE00071A95 /* AlbumDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailViewController.swift; sourceTree = "<group>"; };
 		4601CB922587141000071A95 /* AlbumDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailViewModel.swift; sourceTree = "<group>"; };
 		4601CBDB258726DD00071A95 /* ImageSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSectionModel.swift; sourceTree = "<group>"; };
+		4601CBE1258749F600071A95 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		4624DD242582316C000B165B /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
 		4624DD2925828282000B165B /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		4624DD2E258282AB000B165B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -163,6 +165,14 @@
 			path = "Album Detail";
 			sourceTree = "<group>";
 		};
+		4601CBE02587460000071A95 /* Image Detail */ = {
+			isa = PBXGroup;
+			children = (
+				4601CBE1258749F600071A95 /* ImageViewController.swift */,
+			);
+			path = "Image Detail";
+			sourceTree = "<group>";
+		};
 		468CAF27258545FD00D5C4DF /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +241,7 @@
 				46EADB8C2581FE170046EA3D /* On Boarding */,
 				468CAF3025854AB600D5C4DF /* Album View */,
 				4601CB892587137F00071A95 /* Album Detail */,
+				4601CBE02587460000071A95 /* Image Detail */,
 				46C0CD89257D35AF00184512 /* Device Manager */,
 				468CAF442585608400D5C4DF /* KeyChain */,
 				46C0CD95257D3DFE00184512 /* Helper */,
@@ -579,6 +590,7 @@
 				4624DD342582830D000B165B /* UIViewController+Extensions.swift in Sources */,
 				467FF61C257D50BA00891B40 /* KeyChainManager.swift in Sources */,
 				468CAF3D2585532A00D5C4DF /* MainAlbumViewModel.swift in Sources */,
+				4601CBE2258749F600071A95 /* ImageViewController.swift in Sources */,
 				468CAF38258552EB00D5C4DF /* MainAlbumViewController.swift in Sources */,
 				4624DD2F258282AB000B165B /* Router.swift in Sources */,
 				4624DD252582316C000B165B /* TaskViewModel.swift in Sources */,

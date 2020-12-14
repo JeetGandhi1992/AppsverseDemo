@@ -75,7 +75,14 @@ class MainAlbumViewController: UIViewController, TaskViewController {
                   !name.isEmpty,
                   let pin = secondTextField.text,
                   !pin.isEmpty else { return }
-            self.viewModel.createAlbumFor(name: name, pin: pin)
+            var albums = self.viewModel.albums.value
+            albums = albums.filter { (album: Album) -> Bool in
+                album.name == name
+            }
+            if albums.isEmpty {
+                self.viewModel.createAlbumFor(name: name, pin: pin)
+            } 
+
 
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: {
@@ -95,8 +102,8 @@ class MainAlbumViewController: UIViewController, TaskViewController {
 extension MainAlbumViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/4,
-                      height: 50)
+        return CGSize(width: (collectionView.frame.width/2) - 20,
+                      height: 200)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -122,7 +129,7 @@ extension MainAlbumViewController {
                                      for: indexPath) as? AlbumCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.title.text = albumCellModel.album.name
+        cell.title.text =  " Tap on \(albumCellModel.album.name ?? "") to view the images"
         return cell
     }
 

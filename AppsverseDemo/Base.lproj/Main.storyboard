@@ -41,6 +41,12 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minimum 8 and Maximum 10 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character:" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QwG-4G-i27">
+                                <rect key="frame" x="10" y="488" width="394" height="61"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -48,13 +54,17 @@
                             <constraint firstItem="gY6-Wv-0Tb" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="3qp-WF-LFV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Wne-TB-aJD" secondAttribute="trailing" constant="20" id="9mo-9W-l1z"/>
                             <constraint firstItem="gY6-Wv-0Tb" firstAttribute="top" secondItem="Wne-TB-aJD" secondAttribute="bottom" constant="20" id="A2N-7J-Mgb"/>
+                            <constraint firstItem="QwG-4G-i27" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="D5c-2i-VP2"/>
                             <constraint firstItem="gY6-Wv-0Tb" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Jza-ol-4st"/>
                             <constraint firstItem="Wne-TB-aJD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="VEK-Hw-U9F"/>
+                            <constraint firstAttribute="trailing" secondItem="QwG-4G-i27" secondAttribute="trailing" constant="10" id="oqp-8O-aKU"/>
+                            <constraint firstItem="QwG-4G-i27" firstAttribute="top" secondItem="gY6-Wv-0Tb" secondAttribute="bottom" constant="20" id="rRO-ss-ihg"/>
                             <constraint firstItem="Wne-TB-aJD" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="zPe-Qw-Bbs"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="errorLabel" destination="7QC-AH-BOT" id="09f-jQ-9DM"/>
+                        <outlet property="pinHintLabel" destination="QwG-4G-i27" id="Gth-D9-oYf"/>
                         <outlet property="pinTextField" destination="Mbd-gC-015" id="kRn-Oo-249"/>
                         <outlet property="rePinTextField" destination="Jwj-U5-5xZ" id="7Kf-gC-K2N"/>
                         <outlet property="signUpButton" destination="gY6-Wv-0Tb" id="PZ9-jt-rG8"/>
@@ -137,6 +147,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C0O-Yt-8Hc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1330" y="86"/>
+        </scene>
+        <!--Image View Controller-->
+        <scene sceneID="2AI-iT-gXc">
+            <objects>
+                <viewController storyboardIdentifier="ImageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="46r-sX-ptR" customClass="ImageViewController" customModule="AppsverseDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BTs-dT-q8m">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U5S-Gy-O9T">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="e6z-ih-tb1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="U5S-Gy-O9T" firstAttribute="top" secondItem="e6z-ih-tb1" secondAttribute="top" id="92l-H8-Bef"/>
+                            <constraint firstItem="e6z-ih-tb1" firstAttribute="trailing" secondItem="U5S-Gy-O9T" secondAttribute="trailing" id="Wkq-rL-D5J"/>
+                            <constraint firstItem="e6z-ih-tb1" firstAttribute="bottom" secondItem="U5S-Gy-O9T" secondAttribute="bottom" id="aLQ-iO-jCm"/>
+                            <constraint firstItem="U5S-Gy-O9T" firstAttribute="leading" secondItem="e6z-ih-tb1" secondAttribute="leading" id="vQu-zo-My4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="U5S-Gy-O9T" id="fME-Dj-oTh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LQx-2G-Wi1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2187" y="94"/>
         </scene>
     </scenes>
     <resources>

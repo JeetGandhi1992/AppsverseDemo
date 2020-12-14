@@ -134,7 +134,7 @@ class OnBoardingViewModel: OnBoardingViewModelType {
 
         self.reEnteredPin
             .map { [weak self] reEnteredPin in
-                return self?.pinEntered.value == reEnteredPin
+                return self?.pinEntered.value == reEnteredPin && !reEnteredPin.isEmpty
             }
             .bind(to: rePinValidationStatus)
             .disposed(by: disposeBag)

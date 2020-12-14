@@ -21,6 +21,7 @@ class OnBoardingViewController: UIViewController, TaskViewController {
     @IBOutlet weak var pinTextField: UITextField!
     @IBOutlet weak var rePinTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var pinHintLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,7 @@ class OnBoardingViewController: UIViewController, TaskViewController {
                 let title = isEnrolled ? "LogIn" : "SignUp"
                 self.signUpButton.setTitle(title, for: .normal)
                 self.rePinTextField.isHidden = isEnrolled
+                self.pinHintLabel.isHidden = isEnrolled
             })
             .disposed(by: disposeBag)
 
