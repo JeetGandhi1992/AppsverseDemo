@@ -26,7 +26,7 @@ public protocol RealmDBType: AnyObject {
     func resetDB()
     func save<T: Object>(object: T, deleteBeforeSave: Bool)
     func save<T: Object>(objects: [T])
-    func update(objects: [Object], updateBlock: (_ object: Object) -> Void)
+    func update(objects: [Object])
     func realmObjects<T: Object>(type: T.Type, predicate: NSPredicate?) -> [T]?
     func realmObject<T: Object, K: Any>(type: T.Type, primaryKey: K) -> T?
     func delete(objects: [Object])
@@ -99,11 +99,10 @@ extension RealmDBType {
         }
     }
 
-    public func update(objects: [Object], updateBlock: (_ object: Object) -> Void) {
+    public func update(objects: [Object]) {
         do {
             try self.realm?.write {
                 for obj in objects {
-                    updateBlock(obj)
                     self.realm?.add(obj, update: .all)
                 }
             }

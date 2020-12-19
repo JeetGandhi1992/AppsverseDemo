@@ -21,13 +21,21 @@ class MainAlbumViewController: UIViewController, TaskViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLoadingSpinner()
         setupNetworkingEventsUI()
         setupAddButton()
         setupCollectionView()
+        setupAlbums()
+    }
+
+    private func setupAlbums() {
+        self.rx.viewWillAppear
+            .subscribe(onNext: { [weak self] _ in
+                self?.viewModel.fetchSavedAlbums()
+            })
+            .disposed(by: disposeBag)
     }
 
     private func setupCollectionView() {
@@ -130,6 +138,14 @@ extension MainAlbumViewController {
             return UICollectionViewCell()
         }
         cell.title.text =  " Tap on \(albumCellModel.album.name ?? "") to view the images"
+        cell.deleteButton
+            .rx.tap
+            .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [unowned self] in
+                let alertController = self.viewModel.verifyPin(album: albumCellModel.album,to: true)
+                self.present(alertController, animated: true, completion: nil)
+            })
+            .disposed(by: cell.disposeBag)
         return cell
     }
 

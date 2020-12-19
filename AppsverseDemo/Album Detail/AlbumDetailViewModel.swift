@@ -78,12 +78,14 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
 
     private func setupBindAlbums() {
 
-        self.images.asDriver().drive(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            let imageCellModels = self.getImageCellModels()
-            self.imageSectionModel.accept(ImageSectionModel(header: "",
-                                                            items: imageCellModels))
-        }).disposed(by: disposeBag)
+        self.images.asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let imageCellModels = self.getImageCellModels()
+                self.imageSectionModel.accept(ImageSectionModel(header: "",
+                                                                items: imageCellModels))
+            })
+            .disposed(by: disposeBag)
     }
 
     private func setupEvents() {
@@ -132,6 +134,14 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
             })
             .disposed(by: disposeBag)
         
+    }
+
+    func deleteImage(for imageData: Data) {
+        var updatedImages = self.images.value
+        updatedImages.removeAll(where: { $0 == imageData })
+        self.album.images = updatedImages
+        self.save(albums: [self.album])
+        self.images.accept(updatedImages)
     }
 
     func displayImage(data: Data) {

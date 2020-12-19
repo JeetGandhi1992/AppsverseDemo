@@ -105,6 +105,13 @@ extension AlbumDetailViewController {
             return UICollectionViewCell()
         }
         cell.title.text = "Tap to View the Image \(indexPath.item + 1)"
+        cell.deleteButton
+            .rx.tap
+            .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [unowned self] in
+                self.viewModel.deleteImage(for: albumCellModel.image)
+            })
+            .disposed(by: cell.disposeBag)
         return cell
     }
 

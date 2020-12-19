@@ -7,12 +7,14 @@
 
 import Foundation
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 public protocol AlbumRealmDB {
-    func fetchAlbums() -> [Album]
+    func fetchUpdateAlbums() -> Observable<TaskUIEvent<[Album]>>
     func saveAlbum(albums: [Album])
     func updateAlbum(albums: [Album])
-    func removeAlbum(albums: [Album])
+    func removeAlbum(albumName: String) -> Observable<TaskUIEvent<Album>>
 }
 
 public class RealmDB: RealmDBType {
@@ -36,11 +38,17 @@ public class RealmDB: RealmDBType {
 
 extension RealmDB: AlbumRealmDB {
 
-    public func fetchAlbums() -> [Album] {
-        guard let albums = RealmDB.shared.realmObjects(type: AlbumObject.self) else {
-            return []
-        }
-        return albums.map { $0.album }
+    public func fetchUpdateAlbums() -> Observable<TaskUIEvent<[Album]>> {
+        return Observable<TaskUIEvent<[Album]>>.create { observer in
+            guard let albums = RealmDB.shared.realmObjects(type: AlbumObject.self) else {
+                observer.on(.next(TaskUIEvent.succeeded([])))
+                observer.on(.completed)
+                return Disposables.create()
+            }
+            observer.on(.next(TaskUIEvent.succeeded(albums.map { $0.album })))
+            observer.on(.completed)
+            return Disposables.create()
+        }.startWith(.waiting)
     }
 
     public func saveAlbum(albums: [Album]) {
@@ -48,21 +56,30 @@ extension RealmDB: AlbumRealmDB {
     }
 
     public func updateAlbum(albums: [Album]) {
-        RealmDB.shared.update(objects: albums.map { $0.albumRealmObject }) { (album) in
-            print(album)
-        }
+        RealmDB.shared.update(objects: albums.map { $0.albumRealmObject })
     }
 
-    public func removeAlbum(albums: [Album]) {
-        let catObjects = albums.map { fetchAlbumsForAdoption(for: $0.name ?? "") }
-        RealmDB.shared.delete(objects: catObjects)
+    public func removeAlbum(albumName: String) -> Observable<TaskUIEvent<Album>> {
+        return Observable<TaskUIEvent<Album>>.create { [weak self] observer in
+            guard let albumObject = self?.fetchAlbum(for: albumName) else {
+                observer.on(.error(AlbumDBError.fetchError))
+                observer.on(.completed)
+                return Disposables.create()
+            }
+            let album = albumObject.album
+            RealmDB.shared.delete(objects: [albumObject])
+            observer.on(.next(TaskUIEvent.succeeded(album)))
+            observer.on(.completed)
+            return Disposables.create()
+        }.startWith(.waiting)
     }
 
-    private func fetchAlbumsForAdoption(for name: String) -> AlbumObject {
-        guard let dbAlbum = RealmDB.shared.realmObjects(type: AlbumObject.self)?.filter({ $0.name == name }).first else {
+    private func fetchAlbum(for name: String) -> AlbumObject {
+        guard let albums = RealmDB.shared.realmObjects(type: AlbumObject.self),
+              let fetchedAlbum = albums.filter({ $0.name == name }).first else {
             fatalError("RealmDB: (\(dbName)), init: unable to find the object with \(name)")
         }
-        return dbAlbum
+        return fetchedAlbum
     }
 
     public static func setUpRealmDB() {
@@ -74,4 +91,22 @@ extension RealmDB: AlbumRealmDB {
     }
 
 
+}
+
+
+enum AlbumDBError: Error {
+    case fetchError
+    case unknown
+}
+
+extension AlbumDBError: LocalizedError {
+
+    var errorDescription: String? {
+        switch self {
+            case .unknown:
+                return "Unknown Error occured"
+            case .fetchError:
+                return "Cannot fetch the Album"
+        }
+    }
 }

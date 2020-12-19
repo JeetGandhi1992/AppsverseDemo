@@ -11,7 +11,9 @@ import RxCocoa
 
 public enum MainAlbumViewModelEvents {
     case albumCreated(TaskUIEvent<Data>, name: String)
-    case pinVerified(TaskUIEvent<Data>, album: Album, pin: String)
+    case pinVerified(TaskUIEvent<Data>, album: Album, pin: String, delete: Bool)
+    case fetchAlbum(TaskUIEvent<[Album]>)
+    case removeAlbum(TaskUIEvent<Album>)
     case ignore
 }
 
@@ -20,8 +22,10 @@ extension MainAlbumViewModelEvents: Equatable {
         switch (lhs, rhs) {
             case (.albumCreated(let albumCreatedL, let nameL), .albumCreated(let albumCreatedR, let nameR)):
                 return albumCreatedL == albumCreatedR &&  nameL == nameR
-            case (.pinVerified(let pinVerifiedL, _, _), .pinVerified(let pinVerifiedR, _, _)):
+            case (.pinVerified(let pinVerifiedL, _, _, _), .pinVerified(let pinVerifiedR, _, _, _)):
                 return pinVerifiedL == pinVerifiedR
+            case (.fetchAlbum(let albumsL), .fetchAlbum(let albumsR)):
+                return albumsL == albumsR
             case (.ignore, .ignore):
                 return true
             default:
@@ -35,7 +39,11 @@ extension MainAlbumViewModelEvents: MapsToTaskEvent {
         switch self {
             case .albumCreated(let event, _):
                 return event.ignoreResponse()
-            case .pinVerified(let event, _, _):
+            case .pinVerified(let event, _, _, _):
+                return event.ignoreResponse()
+            case .fetchAlbum(let event):
+                return event.ignoreResponse()
+            case .removeAlbum(let event):
                 return event.ignoreResponse()
             case .ignore:
                 return nil
@@ -72,7 +80,6 @@ class MainAlbumViewModel: MainAlbumViewModelType {
         self.keyChainHelper = keyChainHelper
         setupEvents()
         setupBindAlbums()
-        fetchSavedAlbums()
     }
 
     private func setupEvents() {
@@ -89,10 +96,25 @@ class MainAlbumViewModel: MainAlbumViewModelType {
                         var updatedAlbums = (self?.albums.value ?? [])
                         updatedAlbums.append(contentsOf: albums)
                         self?.albums.accept(updatedAlbums)
-                    case .pinVerified(.succeeded(let decryptedData), let album, let pin):
+                    case .pinVerified(.succeeded(let decryptedData), let album, let pin, let delete):
                         if let decryptedPin = String(data: decryptedData, encoding: .utf8), decryptedPin == pin {
-                            self?.selectedAlbum.onNext(album)
+                            if delete {
+                                self?.removeAlbum(for: album.name ?? "")
+                            } else {
+                                self?.selectedAlbum.onNext(album)
+                            }
+                        } else {
+                            self?.events.onNext(.pinVerified(.failed(KeyChainError.pinMismatchError),
+                                                             album: album,
+                                                             pin: pin,
+                                                             delete: delete))
                         }
+                    case .fetchAlbum(.succeeded(let albums)):
+                        self?.albums.accept(albums)
+                    case .removeAlbum(.succeeded(let album)):
+                        var albums = self?.albums.value ?? []
+                        albums.removeAll(where: { $0.name == album.name })
+                        self?.albums.accept(albums)
                     default:
                         break
                 }
@@ -111,7 +133,11 @@ class MainAlbumViewModel: MainAlbumViewModelType {
     }
 
     func fetchSavedAlbums() {
-        self.albums.accept(sharedRealm.fetchAlbums())
+        self.sharedRealm.fetchUpdateAlbums()
+            .subscribe(onNext: { [weak self] (event) in
+                self?.events.onNext(.fetchAlbum(event))
+            })
+            .disposed(by: disposeBag)
     }
 
     func getAlbumCellModels() -> [AlbumCellModel] {
@@ -136,19 +162,23 @@ class MainAlbumViewModel: MainAlbumViewModelType {
         self.sharedRealm.saveAlbum(albums: albums)
     }
 
-    func verifyPin(album: Album) -> UIAlertController {
-        let alertController = UIAlertController(title: "Add Correct Pin", message: "Please Enter the  correct pin for the album", preferredStyle: UIAlertController.Style.alert)
+    func verifyPin(album: Album, to delete: Bool = false) -> UIAlertController {
+        let title = delete ? "Delete the Album" : "Enter the Album"
+        let message = delete ? "Please enter the correct pin to delete the album" : "Please enter the correct pin to enter the album"
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: UIAlertController.Style.alert)
         alertController.addTextField { (textField : UITextField!) -> Void in
-            textField.placeholder = "Enter Pin for the Album"
+            textField.placeholder = "Enter Pin"
         }
-        let saveAction = UIAlertAction(title: "Submit", style: UIAlertAction.Style.default, handler: { [weak self] alert -> Void in
+        let saveAction = UIAlertAction(title: delete ? "Delete" : "Submit", style: UIAlertAction.Style.default, handler: { [weak self] alert -> Void in
             let firstTextField = alertController.textFields![0] as UITextField
             guard let self = self,
                   let pin = firstTextField.text,
                   !pin.isEmpty else { return }
             self.keyChainHelper.decrypt(encryptedData: album.pin!)
                 .subscribe(onNext: { [weak self] (event) in
-                    self?.events.onNext(.pinVerified(event, album: album, pin: pin))
+                    self?.events.onNext(.pinVerified(event, album: album, pin: pin, delete: delete))
                 })
                 .disposed(by: self.disposeBag)
 
@@ -161,6 +191,14 @@ class MainAlbumViewModel: MainAlbumViewModelType {
 
         return alertController
 
+    }
+
+    func removeAlbum(for name: String) {
+        self.sharedRealm.removeAlbum(albumName: name)
+            .subscribe(onNext: { [weak self] (event) in
+                self?.events.onNext(.removeAlbum(event))
+            })
+            .disposed(by: disposeBag)
     }
     
 }

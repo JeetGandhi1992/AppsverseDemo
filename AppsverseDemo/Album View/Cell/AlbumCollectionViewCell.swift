@@ -6,14 +6,22 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class AlbumCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
+
+    var disposeBag: DisposeBag = DisposeBag()
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+    }
+
+    override func prepareForReuse() {
+        self.disposeBag = DisposeBag()
     }
 
 }
