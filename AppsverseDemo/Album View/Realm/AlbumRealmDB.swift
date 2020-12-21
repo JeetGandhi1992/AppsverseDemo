@@ -13,7 +13,7 @@ import RxCocoa
 public protocol AlbumRealmDB {
     func fetchUpdateAlbums() -> Observable<TaskUIEvent<[Album]>>
     func saveAlbum(albums: [Album])
-    func updateAlbum(albums: [Album])
+    func updateAlbum(album: Album)
     func removeAlbum(albumName: String) -> Observable<TaskUIEvent<Album>>
 }
 
@@ -28,7 +28,8 @@ public class RealmDB: RealmDBType {
 
     public var objectTypes: [Object.Type] {
         return [
-            AlbumObject.self
+            AlbumObject.self,
+            AlbumImageObject.self
         ]
     }
 
@@ -55,8 +56,8 @@ extension RealmDB: AlbumRealmDB {
         RealmDB.shared.save(objects: albums.map { $0.albumRealmObject })
     }
 
-    public func updateAlbum(albums: [Album]) {
-        RealmDB.shared.update(objects: albums.map { $0.albumRealmObject })
+    public func updateAlbum(album: Album) {
+        RealmDB.shared.save(object: album.albumRealmObject, deleteBeforeSave: true)
     }
 
     public func removeAlbum(albumName: String) -> Observable<TaskUIEvent<Album>> {

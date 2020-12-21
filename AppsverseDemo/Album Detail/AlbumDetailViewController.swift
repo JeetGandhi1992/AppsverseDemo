@@ -128,7 +128,7 @@ extension AlbumDetailViewController: PHPickerViewControllerDelegate {
         for result in results {
             result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { [unowned self] (object, error) in
                 DispatchQueue.main.async { [unowned self] in
-                    if let image = object as? UIImage, let imageData = image.pngData() ?? image.jpegData(compressionQuality: 1.0) {
+                    if let image = object as? UIImage, let imageData = image.jpegData(compressionQuality: 1.0) {
                         self.viewModel.saveImage(imageData: imageData)
                     }
                 }

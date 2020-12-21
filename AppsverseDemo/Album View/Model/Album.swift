@@ -37,7 +37,7 @@ public struct Album: Codable, Equatable {
         self.init(name: albumRealmObject.name,
                   number: albumRealmObject.number,
                   pin: albumRealmObject.pin,
-                  images: albumRealmObject.images.toArray().compactMap { $0 })
+                  images: albumRealmObject.images.toArray().compactMap { $0.image })
     }
 }
 
@@ -46,23 +46,32 @@ public class AlbumObject: Object {
     @objc dynamic var name: String?
     @objc dynamic var number: Int = 0
     @objc dynamic var pin: Data?
-    var images: List<Data?> = List<Data?>()
+    let images: List<AlbumImageObject> = List<AlbumImageObject>()
 
     var album: Album {
         return Album(albumRealmObject: self)
     }
+    
 
     convenience init(album: Album) {
         self.init()
         self.name = album.name
         self.number = album.number ?? 0
         self.pin = album.pin
-        let imgs = List<Data?>()
-        imgs.append(objectsIn: album.images ?? [])
-        self.images = imgs
+        self.images.append(objectsIn: album.images?.map { AlbumImageObject(image: $0) } ?? [])
     }
 
     public override static func primaryKey() -> String {
         return "name"
+    }
+}
+
+public class AlbumImageObject: Object {
+
+    @objc dynamic var image: Data?
+
+    convenience init(image: Data?) {
+        self.init()
+        self.image = image
     }
 }

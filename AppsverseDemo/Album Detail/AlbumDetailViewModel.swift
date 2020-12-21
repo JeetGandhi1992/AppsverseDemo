@@ -97,7 +97,7 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
                     case .imageAdded(.succeeded(let data)):
                         let updatedImages = self.images.value + [data]
                         self.album.images = updatedImages
-                        self.save(albums: [self.album])
+                        self.save(album: self.album)
                         self.images.accept(updatedImages)
                     case .imageTapped(.succeeded(let imageData)):
                         if let image = UIImage(data: imageData) {
@@ -120,8 +120,8 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
         return imageCellModels
     }
 
-    func save(albums: [Album])  {
-        self.sharedRealm.updateAlbum(albums: albums)
+    func save(album: Album)  {
+        self.sharedRealm.updateAlbum(album: album)
     }
 
     func saveImage(imageData: Data) {
@@ -140,7 +140,7 @@ class AlbumDetailViewModel: AlbumDetailViewModelType {
         var updatedImages = self.images.value
         updatedImages.removeAll(where: { $0 == imageData })
         self.album.images = updatedImages
-        self.save(albums: [self.album])
+        self.save(album: self.album)
         self.images.accept(updatedImages)
     }
 
